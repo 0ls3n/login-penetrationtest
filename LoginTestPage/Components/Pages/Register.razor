@@ -1,0 +1,36 @@
+﻿@page "/Register"
+
+<div style="background: #ffffff;" class="p-5 w-50 mx-auto rounded-4">
+    <h3 class="text-center mb-5" style="font-size:42px;">Register</h3>
+
+    <div>
+        <form>
+            <!-- Email input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="email" id="form2Example1" class="form-control"/>
+                <label class="form-label" for="form2Example1">Email address</label>
+            </div>
+
+            <!-- Password input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="form2Example2" class="form-control"/>
+                <label class="form-label" for="form2Example2">Password</label>
+            </div>
+
+            <!-- Submit button -->
+            <button type="button" data-mdb-button-init data-mdb-ripple-init
+                    class="btn btn-primary btn-block w-100 mb-4">Register
+            </button>
+
+            <!-- Register buttons -->
+            <div class="text-center">
+                <p>Already have an account <NavLink href="/login">Sign in</NavLink></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@code {
+
+}
