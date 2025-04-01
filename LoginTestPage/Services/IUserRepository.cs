@@ -1,5 +1,6 @@
-﻿namespace LoginTestPage.Services;
-using LoginTestPage.Models;
+﻿using LoginTestPage.Models;
+namespace LoginTestPage.Services;
+
 
 public interface IUserRepository
 {
@@ -7,4 +8,6 @@ public interface IUserRepository
     public void Update(User? user);
     public void Delete(User user);
     public Task<User?> GetById(int id);
+    public Task<User?> GetByEmail(string email);
+    public Task<List<User>> GetAll();
 }

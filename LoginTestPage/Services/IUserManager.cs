@@ -4,7 +4,7 @@ namespace LoginTestPage.Services;
 
 public interface IUserManager
 {
-    public void SignIn(User? user);
+    public Task<bool> SignIn(UserDto? user);
     public void SignOut();
-    public void Register(User? user);
+    public Task<bool> Register(UserDto? user);
 }

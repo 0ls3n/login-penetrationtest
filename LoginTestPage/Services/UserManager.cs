@@ -1,28 +1,78 @@
 ﻿using LoginTestPage.Models;
+using HashingLibrary;
 
 namespace LoginTestPage.Services;
 
-public class UserManager : IUserManager
+public class UserManager(IUserRepository userRepository, SignInManager signInManager)
+    : IUserManager
 {
-    private readonly IUserRepository _userRepository;
+    public async Task<bool> SignIn(UserDto? user)
+    {
+         /* Find if the user exists, after check if the hashed password is the same
+            as the one on the database. */
+         if (user?.Email != null)
+         {
+             User? userToCheck = await userRepository.GetByEmail(user.Email);
+             if (userToCheck is not null)
+             {
+                 if (user.Password != null)
+                 {
+                     string hashedPassword = CustomHashing.HashPassword(user.Password);
+                     if (userToCheck.HashedPassword == hashedPassword)
+                     {
+                         signInManager.SignUserIn(user.Email);
+                         return true;
+                     }
+                 }
+             }
+         }
 
-    public UserManager(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
-    
-    public void SignIn(User? user)
-    {
-        throw new NotImplementedException();
+         return false;
     }
 
     public void SignOut()
     {
-        throw new NotImplementedException();
+        if (signInManager.Email is not null)
+        {
+            signInManager.SignUserOut();
+        }
     }
 
-    public void Register(User? user)
+    public async Task<bool> Register(UserDto? user)
     {
-        
+        /* Convert the plain text password to a hashed password,
+           and after that create instance of a new User,
+           and add it to the repository. The function should return true,
+           if the register is successful */
+
+        if (user is not null)
+        {
+            string? email = user.Email;
+            string password = string.Empty;
+            
+            List<User>? users = await userRepository.GetAll();
+
+            foreach (User? user1 in users)
+            {
+                if (user.Email == user1.Email)
+                {
+                    return false;
+                }
+            }
+            
+            if (user?.Password != null)
+            {
+                password = CustomHashing.HashPassword(user.Password);
+            }
+
+            var userToRegister = new User
+            {
+                Email = email,
+                HashedPassword = password
+            };
+
+            await userRepository.Add(userToRegister);
+        }
+        return true;
     }
 }

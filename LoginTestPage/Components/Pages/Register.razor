@@ -1,24 +1,31 @@
-﻿@page "/Register"
+﻿@using LoginTestPage.Models
+@using LoginTestPage.Services
+@inject IUserManager UserManager
+@inject NavigationManager Navigation
+@page "/Register"
+
 
 <div style="background: #ffffff;" class="p-5 w-50 mx-auto rounded-4">
     <h3 class="text-center mb-5" style="font-size:42px;">Register</h3>
 
     <div>
-        <form>
+        <EditForm Model="user" OnValidSubmit="OnSubmit" FormName="Register">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
-                <input type="email" id="form2Example1" class="form-control"/>
-                <label class="form-label" for="form2Example1">Email address</label>
+                <InputText @bind-Value="user.Email" class="form-control"></InputText>
+                <label class="form-label">Email address</label>
             </div>
 
             <!-- Password input -->
             <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" id="form2Example2" class="form-control"/>
-                <label class="form-label" for="form2Example2">Password</label>
+                <InputText @bind-Value="user.Password" type="password" class="form-control"></InputText>
+                <label class="form-label">Password</label>
             </div>
 
             <!-- Submit button -->
-            <button type="button" data-mdb-button-init data-mdb-ripple-init
+            <button type="submit" data-mdb-button-init data-mdb-ripple-init
                     class="btn btn-primary btn-block w-100 mb-4">Register
             </button>
 
@@ -26,11 +33,20 @@
             <div class="text-center">
                 <p>Already have an account <NavLink href="/login">Sign in</NavLink></p>
             </div>
-        </form>
+        </EditForm>
     </div>
 </div>
 
 
 @code {
+    [SupplyParameterFromForm]
+    private UserDto? user { get; set; } = new() { Email = string.Empty, Password = string.Empty };
 
+    public async Task OnSubmit()
+    {
+        if (await UserManager.Register(user))
+        {
+            Navigation.NavigateTo("/", true);
+        }
+    }
 }

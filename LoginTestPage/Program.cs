@@ -13,7 +13,9 @@ var connectionString = builder.Configuration.GetConnectionString("DbConnection")
 
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<SignInManager>();
+builder.Services.AddTransient<IUserManager, UserManager>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
