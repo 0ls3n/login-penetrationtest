@@ -1,4 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using LoginTestPage.Services
+@rendermode InteractiveServer
+@inject SignInManager SignInManager;
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">LoginTestPage</a>
     </div>
@@ -19,16 +23,33 @@
                 <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
             </NavLink>
         </div>
+        
+        @if (SignInManager.IsUserSignedIn())
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="profile">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Profile
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <button class="nav-link" href="profile" @onclick="SignInManager.SignUserOut">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Sign out
+                </button>
+            </div>
+        }
+        else
+        {
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Register">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Register
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Login">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Login
-            </NavLink>
-        </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Register">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Register
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Login">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Login
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>

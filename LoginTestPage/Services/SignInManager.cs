@@ -13,4 +13,14 @@ public class SignInManager
     {
         this.Email = null;
     }
+
+    public bool IsUserSignedIn()
+    {
+        if (this.Email != null)
+        {
+            return true;
+        }
+        
+        return false;
+    }
 }
