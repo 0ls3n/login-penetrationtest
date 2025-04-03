@@ -2,7 +2,7 @@
 namespace LoginTestPage.Services;
 public class SignInManager
 {
-    public string? Email {get; set;}
+    public string? Email {get; private set;}
 
     public void SignUserIn(string email)
     {

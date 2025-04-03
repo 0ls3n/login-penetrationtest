@@ -52,9 +52,9 @@ public class UserManager(IUserRepository userRepository, SignInManager signInMan
             
             List<User>? users = await userRepository.GetAll();
 
-            foreach (User? user1 in users)
+            foreach (User? u in users)
             {
-                if (user.Email == user1.Email)
+                if (user.Email == u.Email)
                 {
                     return false;
                 }
@@ -76,3 +76,8 @@ public class UserManager(IUserRepository userRepository, SignInManager signInMan
         return true;
     }
 }
+
+
+
+
+
