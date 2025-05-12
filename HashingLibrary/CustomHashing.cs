@@ -1,4 +1,6 @@
-﻿namespace HashingLibrary;
+﻿using BCrypt.Net;
+
+namespace HashingLibrary;
 
 public class CustomHashing
 {
@@ -13,6 +15,14 @@ public class CustomHashing
 
         return hash.ToString("X");
     }
+
+    public static string HashPasswordWithBcrypt(string password) => BCrypt.Net.BCrypt.HashPassword
+            (
+            password, 
+            BCrypt.Net.BCrypt.GenerateSalt(), 
+            false, 
+            HashType.SHA512
+            );
 }
 
 

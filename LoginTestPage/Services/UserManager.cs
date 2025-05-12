@@ -17,8 +17,8 @@ public class UserManager(IUserRepository userRepository, SignInManager signInMan
              {
                  if (user.Password != null)
                  {
-                     string hashedPassword = CustomHashing.HashPassword(user.Password);
-                     if (userToCheck.HashedPassword == hashedPassword)
+                     string hashedPassword = CustomHashing.HashPasswordWithBcrypt(user.Password);
+                     if (BCrypt.Net.BCrypt.Verify(user.Password, hashedPassword))
                      {
                          signInManager.SignUserIn(user.Email);
                          return true;
@@ -62,7 +62,7 @@ public class UserManager(IUserRepository userRepository, SignInManager signInMan
             
             if (user?.Password != null)
             {
-                password = CustomHashing.HashPassword(user.Password);
+                password = CustomHashing.HashPasswordWithBcrypt(user.Password);
             }
 
             var userToRegister = new User
